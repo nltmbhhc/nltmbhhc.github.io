@@ -1,668 +1,299 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Road Trip 20220602-</title>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Password Protected Page</title>
     <style>
-        .collapsible {
-          background-color: #777;
-          color: white;
-          cursor: pointer;
-          padding: 18px;
-          width: 100%;
-          border: none;
-          text-align: left;
-          outline: none;
-          font-size: 30px;
+        html, body {
+            margin: 0;
+            width: 100%;
+            height: 100%;
+            font-family: Arial, Helvetica, sans-serif;
         }
-
-        .active, .collapsible:hover {
-          background-color: #555;
+        #dialogText {
+            color: white;
+            background-color: #333333;
         }
-
-        .content {
-          padding: 0 18px;
-          display: none;
-          overflow: hidden;
-          background-color: #f1f1f1;
+        
+        #dialogWrap {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: table;
+            background-color: #EEEEEE;
+        }
+        
+        #dialogWrapCell {
+            display: table-cell;
+            text-align: center;
+            vertical-align: middle;
+        }
+        
+        #mainDialog {
+            max-width: 400px;
+            margin: 5px;
+            border: solid #AAAAAA 1px;
+            border-radius: 10px;
+            box-shadow: 3px 3px 5px 3px #AAAAAA;
+            margin-left: auto;
+            margin-right: auto;
+            background-color: #FFFFFF;
+            overflow: hidden;
+            text-align: left;
+        }
+        #mainDialog > * {
+            padding: 10px 30px;
+        }
+        #passArea {
+            padding: 20px 30px;
+            background-color: white;
+        }
+        #passArea > * {
+            margin: 5px auto;
+        }
+        #pass {
+            width: 100%;
+            height: 40px;
+            font-size: 30px;
+        }
+        
+        #messageWrapper {
+            float: left;
+            vertical-align: middle;
+            line-height: 30px;
+        }
+        
+        .notifyText {
+            display: none;
+        }
+        
+        #invalidPass {
+            color: red;
+        }
+        
+        #success {
+            color: green;
+        }
+        
+        #submitPass {
+            font-size: 20px;
+            border-radius: 5px;
+            background-color: #E7E7E7;
+            border: solid gray 1px;
+            float: right;
+            cursor: pointer;
+        }
+        #contentFrame {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        #attribution {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            text-align: center;
+            padding: 10px;
+            font-weight: bold;
+            font-size: 0.8em;
+        }
+        #attribution, #attribution a {
+            color: #999;
+        }
+        .error {
+            display: none;
+            color: red;
         }
     </style>
-
-</head>
-<body>
-<button type="button" class="collapsible">6/2 Set off to Tulare</button>
-<div class="content">
-    <ul>
-        <li>Get ready for the sunrise at Sequoia the next day</li>
-        <li><a href="https://goo.gl/maps/fzBC94bGvSTECgHU6">Map for the day</a></li>
-        <iframe src="https://www.google.com/maps/embed?pb=!1m24!1m8!1m3!1d3342070.7798242276!2d-119.8267179!3d35.1131778!3m2!1i1024!2i768!4f13.1!4m13!3e0!4m5!1s0x80c2c4661b2ee819%3A0x79034851ce301580!2s265%20Monterey%20Rd%2C%20South%20Pasadena%2C%20CA%2091030%2C%20USA!3m2!1d34.1111557!2d-118.1702766!4m5!1s0x80952bed42eab407%3A0xe3a876aa014682be!2s1500%20N%20Cherry%20St%2C%20Tulare%2C%20CA%2093274!3m2!1d36.227438299999996!2d-119.3375281!5e0!3m2!1sen!2sus!4v1654103353790!5m2!1sen!2sus" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-        <script>
-        (function(d, s, id) {
-            if (d.getElementById(id)) {
-                if (window.__TOMORROW__) {
-                    window.__TOMORROW__.renderWidget();
-                }
-                return;
-            }
-            const fjs = d.getElementsByTagName(s)[0];
-            const js = d.createElement(s);
-            js.id = id;
-            js.src = "https://www.tomorrow.io/v1/widget/sdk/sdk.bundle.min.js";
-
-            fjs.parentNode.insertBefore(js, fjs);
-        })(document, 'script', 'tomorrow-sdk');
-        </script>
-
-        <div class="tomorrow"
-           data-location-id="127882"
-           data-language="EN"
-           data-unit-system="METRIC"
-           data-skin="light"
-           data-widget-type="upcoming"
-           style="padding-bottom:22px;position:relative;"
-        >
-          <a
-            href="https://www.tomorrow.io/weather/"
-            rel="nofollow noopener noreferrer"
-            target="_blank"
-            style="position: absolute; bottom: 0; transform: translateX(-50%); left: 50%;"
-          >
-            <img
-              alt="Powered by Tomorrow.io"
-              src="https://weather-website-client.tomorrow.io/img/powered-by-tomorrow.svg"
-              width="140"
-              height="15"
-            />
-          </a>
+  </head>
+  <body>
+    <iframe id="contentFrame" frameBorder="0" allowfullscreen></iframe>
+    <div id="dialogWrap">
+        <div id="dialogWrapCell">
+            <div id="mainDialog">
+                <div id="dialogText">This page is password protected.</div>
+                <div id="passArea">
+                    <p id="passwordPrompt">Password</p>
+                    <input id="pass" type="password" name="pass" autofocus>
+                    <div>
+                        <span id="messageWrapper">
+                            <span id="invalidPass" class="error">Sorry, please try again.</span>
+                            <span id="trycatcherror" class="error">Sorry, something went wrong.</span>
+                            <span id="success" class="notifyText">Success!</span>
+                            &nbsp;
+                        </span>
+                        <button id="submitPass" type="button">Submit</button>
+                        <div style="clear: both;"></div>
+                    </div>
+                </div>
+                <div id="securecontext" class="error">
+                    <p>
+                        Sorry, but password protection only works over a secure connection. Please load this page via HTTPS.
+                    </p>
+                </div>
+                <div id="nocrypto" class="error">
+                    <p>
+                        Your web browser appears to be outdated. Please visit this page using a modern browser.
+                    </p>
+                </div>
+            </div>
         </div>
-    </ul>
-</div>
+    </div>
+    <div id="attribution">
+        Protected by <a href="https://www.maxlaumeister.com/pagecrypt/">PageCrypt</a>
+    </div>
+    <script>
+    (function() {
 
-<button type="button" class="collapsible">6/3 Sequoia NP</button>
-<div class="content">
-    <ul>
-        <li><a href="https://www.bigbravenomad.com/blog/what-to-do-in-sequoia-national-park-with-kids">What to do in Sequoia National Park with Kids</a></li>
-        <li><a href="https://www.alltrails.com/explore/trail/us/california/moro-rock-trail">Moro Rock Trail</a> for Sunrise (5:37am)</li>
-        <ul>
-            <li>Length: 0.5 mi, Est. 19m</li>
-            <li>Elevation gain: 177 ft, out & back</li>
-            <li>2hr drive</li>
-            <li>15 min walk to the peak</li>
-            <li>set off at 3:15am</li>
-        </ul>
-        <li>Sequoia National Park's Tunnel Log</li>
-        <li><a href="https://www.alltrails.com/explore/trail/us/california/crescent-and-log-meadows-trail">Crescent Meadow Loop</a></li>
-        <ul>
-            <li>Length: 1.8 mi, Est. 44m</li>
-            <li>Elevation gain: 206 ft, loop</li>
-            <li>Chimney Tree</li>
-            <li>Tharp's Log</li>
-        </ul>
-        <li>Giant Forest Museum</li>
-        <ul>
-            <li>Explore exhibits about sequoias and learn why this landscape grows the biggest of big trees</li>
-        </ul>
-        <li><a href="https://www.alltrails.com/explore/trail/us/california/general-sherman-tree-trail">General Sherman Tree Trail</a></li>
-        <ul>
-            <li>Take Shuttle #1 to the trail</li>
-            <li>Length: 1.2 mi, Est. 33m</li>
-            <li>Elevation gain: 196 ft, out & back</li>
-            <li>The General Sherman Tree is the world's largest tree, measured by volume</li>
-        </ul>
-        <li><a href="https://www.alltrails.com/explore/trail/us/california/the-big-trees-trail">Big Trees Trail</a></li>
-        <ul>
-            <li>Take Shuttle #1 back to GF Museum and Walk to the Trail</li>
-            <li>Length: 1.3 mi, Est. 29m</li>
-            <li>Elevation gain: 114 ft, loop</li>
-        </ul>
-        <li>Foothills Visitor Center (much smaller than GF Museum)</li>
-        <li><a href="https://goo.gl/maps/KtrNV8cWSMYBLRqV7">Map for the day</a></li>
-        <iframe src="https://www.google.com/maps/embed?pb=!1m58!1m12!1m3!1d411080.5530794975!2d-119.36017113712201!3d36.39547921726052!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!4m43!3e0!4m5!1s0x80952bed42eab407%3A0xe3a876aa014682be!2s1500%20N%20Cherry%20St%2C%20Tulare%2C%20CA%2093274!3m2!1d36.227438299999996!2d-119.3375281!4m5!1s0x80955c04b5f0f25f%3A0x65ae90fa91d7a0c!2sMoro%20Rock%20Trail%2C%20Sequoia%20National%20Park%2C%20CA!3m2!1d36.5468705!2d-118.7655927!4m5!1s0x80955956a618f9f7%3A0xe176511ff5023ccc!2sSequoia%20National%20Park&#39;s%20Tunnel%20Log!3m2!1d36.552566299999995!2d-118.761382!4m5!1s0x8095594ecaa8e26f%3A0xfc5faea76dfebc03!2sHigh%20Sierra%20Trailhead!3m2!1d36.554805099999996!2d-118.7489866!4m5!1s0x80955c04accd5ebd%3A0xf897566463c737ea!2sGiant%20Forest%20Museum!3m2!1d36.5645934!2d-118.772882!4m5!1s0x80955aeffa88799d%3A0xbd2497e7eef50702!2sFoothills%20Visitor%20Center!3m2!1d36.4909715!2d-118.8253343!4m5!1s0x80952bed42eab407%3A0xe3a876aa014682be!2s1500%20N%20Cherry%20St%2C%20Tulare%2C%20CA%2093274!3m2!1d36.227438299999996!2d-119.3375281!5e0!3m2!1sen!2sus!4v1654441875508!5m2!1sen!2sus" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-        <script>
-        (function(d, s, id) {
-            if (d.getElementById(id)) {
-                if (window.__TOMORROW__) {
-                    window.__TOMORROW__.renderWidget();
-                }
-                return;
-            }
-            const fjs = d.getElementsByTagName(s)[0];
-            const js = d.createElement(s);
-            js.id = id;
-            js.src = "https://www.tomorrow.io/v1/widget/sdk/sdk.bundle.min.js";
+        var pl = "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";
+        
+        var submitPass = document.getElementById('submitPass');
+        var passEl = document.getElementById('pass');
+        var invalidPassEl = document.getElementById('invalidPass');
+        var trycatcherror = document.getElementById('trycatcherror');
+        var successEl = document.getElementById('success');
+        var contentFrame = document.getElementById('contentFrame');
+        
+        // Sanity checks
 
-            fjs.parentNode.insertBefore(js, fjs);
-        })(document, 'script', 'tomorrow-sdk');
-        </script>
-
-        <div class="tomorrow"
-           data-location-id="127620"
-           data-language="EN"
-           data-unit-system="METRIC"
-           data-skin="light"
-           data-widget-type="upcoming"
-           style="padding-bottom:22px;position:relative;"
-        >
-          <a
-            href="https://www.tomorrow.io/weather/"
-            rel="nofollow noopener noreferrer"
-            target="_blank"
-            style="position: absolute; bottom: 0; transform: translateX(-50%); left: 50%;"
-          >
-            <img
-              alt="Powered by Tomorrow.io"
-              src="https://weather-website-client.tomorrow.io/img/powered-by-tomorrow.svg"
-              width="140"
-              height="15"
-            />
-          </a>
-        </div>
-    </ul>
-</div>
-
-<button type="button" class="collapsible">6/4 Sequoia & Kings Canyon NPs</button>
-<div class="content">
-    <ul>
-        <li><a href="https://www.bigbravenomad.com/blog/what-to-do-in-kings-canyon-national-park-with-kids">What to do in Kings Canyon National Park with Kids</a></li>
-        <li>Sequoia National Park Entrance Sign</li>
-        <li>Tunnel Rock</li>
-        <li>Wuksachi Lodge for Lunch</li>
-        <li><a href="https://www.alltrails.com/explore/trail/us/california/tokopah-falls-via-tokopah-valley-trail--2">Tokopah Falls</a></li>
-        <ul>
-            <li>Length: 4.0 mi, Est. 108m</li>
-            <li>Elevation gain: 639 ft, out & back</li>
-        </ul>
-
-        <li><a href="https://www.alltrails.com/explore/trail/us/california/general-grant-loop-trail">General Grant Tree Trail</a></li>
-        <ul>
-            <li>Length: 0.7 mi, Est. 14m</li>
-            <li>Elevation gain: 32 ft, loop</li>
-        </ul>
-
-        <li><a href="https://www.alltrails.com/explore/trail/us/california/north-grove-and-sunset-trail">North Grove Loop</a></li>
-        <ul>
-            <li>(skipped this time)</li>
-            <li>same parking lot as General Grant Tree Trail</li>
-            <li>Length: 1.8 mi, Est. 53m</li>
-            <li>Elevation gain: 357 ft, loop</li>
-        </ul>
-
-        <li><a href="https://www.alltrails.com/explore/trail/us/california/big-stump-loop-trail?ref=result-card">Big Stump Loop Trail</a></li>
-        <ul>
-            <li>(skipped this time)</li>
-            <li>Length: 1.6 mi, Est. 39m</li>
-            <li>Elevation gain: 193 ft, loop</li>
-        </ul>
-        <li><a href="https://goo.gl/maps/Ev5ScqBnbfX5SBKP9">Map for the day</a></li>
-        <iframe src="https://www.google.com/maps/embed?pb=!1m58!1m12!1m3!1d410451.5161228039!2d-119.47542986132!3d36.514250353974035!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!4m43!3e0!4m5!1s0x80952bed42eab407%3A0xe3a876aa014682be!2s1500%20N%20Cherry%20St%2C%20Tulare%2C%20CA%2093274!3m2!1d36.227438299999996!2d-119.3375281!4m5!1s0x80955ba66129f263%3A0x5265780129c285ae!2sSign%20-%20Sequoia%20National%20Park!3m2!1d36.4853708!2d-118.8378729!4m5!1s0x80955a5582b3145b%3A0x22af061c08cc7586!2sTunnel%20Rock!3m2!1d36.5021461!2d-118.8123456!4m5!1s0x80955e7bbfa947a1%3A0x569f3289d86ec019!2sWuksachi%20Lodge%2C%20Wuksachi%20Way%2C%20Sequoia%20National%20Park%2C%20CA!3m2!1d36.6095924!2d-118.7520631!4m5!1s0x80955f7182556337%3A0xe0dfdc0ffcbdd4ff!2sTokopah%20Falls%2C%20California%2093262!3m2!1d36.608553799999996!2d-118.6900976!4m5!1s0x8095720dc5ee4eab%3A0x65500536ad297931!2sGeneral%20Grant%20Tree!3m2!1d36.7482683!2d-118.97115009999999!4m5!1s0x80945c74fda30e53%3A0xf03df6faae57a179!2s835%20Gettysburg%20Ave%2C%20Clovis%2C%20CA%2093612!3m2!1d36.8022655!2d-119.6992999!5e0!3m2!1sen!2sus!4v1654442276448!5m2!1sen!2sus" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-        <script>
-        (function(d, s, id) {
-            if (d.getElementById(id)) {
-                if (window.__TOMORROW__) {
-                    window.__TOMORROW__.renderWidget();
-                }
-                return;
-            }
-            const fjs = d.getElementsByTagName(s)[0];
-            const js = d.createElement(s);
-            js.id = id;
-            js.src = "https://www.tomorrow.io/v1/widget/sdk/sdk.bundle.min.js";
-
-            fjs.parentNode.insertBefore(js, fjs);
-        })(document, 'script', 'tomorrow-sdk');
-        </script>
-
-        <div class="tomorrow"
-           data-location-id="306414"
-           data-language="EN"
-           data-unit-system="METRIC"
-           data-skin="light"
-           data-widget-type="upcoming"
-           style="padding-bottom:22px;position:relative;"
-        >
-          <a
-            href="https://www.tomorrow.io/weather/"
-            rel="nofollow noopener noreferrer"
-            target="_blank"
-            style="position: absolute; bottom: 0; transform: translateX(-50%); left: 50%;"
-          >
-            <img
-              alt="Powered by Tomorrow.io"
-              src="https://weather-website-client.tomorrow.io/img/powered-by-tomorrow.svg"
-              width="140"
-              height="15"
-            />
-          </a>
-        </div>
-    </ul>
-</div>
-
-<button type="button" class="collapsible">6/5 Kings Canyon NP</button>
-<div class="content">
-    <ul>
-        <li>Kings Canyon Visitor Center</li>
-            <ul>
-                <li>Learn about three regions in Kings Canyon National Park: giant sequoia groves, Kings Canyon, and the High Sierra</li>
-                <li>Watch a 15-minute movie</li>
-            </ul>
-
-        <li>Kings Canyon Scenic Byway</li>
-            <ul>
-                <li>Junction View</li>
-                <li>Marble Mountain View (skipped this time)</li>
-                <li>Grizzly Falls (skipped this time)</li>
-            </ul>
-        <li>Kings Canyon National Park Entrance Sign</li>
-        <li>Cedar Grove Visitor Center</li>
-        <li><a href="https://www.alltrails.com/explore/trail/us/california/zumwalt-meadow-trail--3">Zumwalt Meadow Trail</a></li>
-        <ul>
-            <li>Length: 1.5 mi, Est. 36m</li>
-            <li>Elevation gain: 157 ft, out & back \ loop</li>
-        </ul>
-        <li>Muir Rock</li>
-        <ul>
-            <li>located at Road’s End</li>
-            <li>can swim here</li>
-            <li>gets it’s name because John Muir would give talks here</li>
-        </ul>
-        <li><a href="https://www.alltrails.com/explore/trail/us/california/roaring-river-falls-trail">Roaring River Falls Trail</a></li>
-        <ul>
-            <li>swim (not this time since waterfall is fierce)</li>
-            <li>Length: 0.3 mi, Est. 7m</li>
-            <li>Elevation gain: 26 ft, out & back</li>
-        </ul>
-        <li><a href="https://goo.gl/maps/rXpQoDExwZntumD59">Map for the day</a></li>
-        <iframe src="https://www.google.com/maps/embed?pb=!1m76!1m12!1m3!1d13157.441170256589!2d-118.65523921184969!3d36.77730623757531!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!4m61!3e0!4m5!1s0x80945c74fda30e53%3A0xf03df6faae57a179!2s835%20Gettysburg%20Ave%2C%20Clovis%2C%20CA%2093612!3m2!1d36.8022655!2d-119.6992999!4m5!1s0x809570c603312ecb%3A0x5b400cb9475ecbd6!2sJunction%20View%2C%20Hume%2C%20CA%2093628!3m2!1d36.8315086!2d-118.8899335!4m5!1s0x80957af525078057%3A0xc330a4ecf5af0aa9!2sMarble%20Mountain%20View!3m2!1d36.8135!2d-118.8355!4m5!1s0x80957cb5853cb1e3%3A0x75e890db953ea2e3!2sGrizzly%20Falls%20Picnic%20Area%2C%20California!3m2!1d36.8031121!2d-118.74377989999999!4m5!1s0x809563944656c343%3A0x365511fffa34c8dc!2sKings%20Canyon%20National%20Park%20Entrance%20Sign!3m2!1d36.8014332!2d-118.6964842!4m5!1s0x80bfd877bc901095%3A0xf52d3c753e30ddb6!2sCedar%20Grove%20Visitor%20Center!3m2!1d36.791032699999995!2d-118.6711057!4m5!1s0x80bfd97409d71025%3A0xb71b46c70dc621f!2sZumwalt%20Meadows%20Trailhead%2C%20California!3m2!1d36.7937854!2d-118.5982543!4m5!1s0x80bfd93c7779280b%3A0xfcfb00c7a1a8cf04!2sMuir%20Rock!3m2!1d36.7933753!2d-118.58358659999999!4m5!1s0x80bfd91c80c09035%3A0x81ce082aa45d2fd2!2sRoaring%20River%20Falls%2C%20California!3m2!1d36.7804955!2d-118.6209327!4m5!1s0x80940c930a33df27%3A0xf68686358c451f59!2s1219%20E%20Almond%20Ave%2C%20Madera%2C%20CA%2093637!3m2!1d36.9464008!2d-120.0461658!5e0!3m2!1sen!2sus!4v1654444209385!5m2!1sen!2sus" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-        <script>
-        (function(d, s, id) {
-            if (d.getElementById(id)) {
-                if (window.__TOMORROW__) {
-                    window.__TOMORROW__.renderWidget();
-                }
-                return;
-            }
-            const fjs = d.getElementsByTagName(s)[0];
-            const js = d.createElement(s);
-            js.id = id;
-            js.src = "https://www.tomorrow.io/v1/widget/sdk/sdk.bundle.min.js";
-
-            fjs.parentNode.insertBefore(js, fjs);
-        })(document, 'script', 'tomorrow-sdk');
-        </script>
-
-        <div class="tomorrow"
-           data-location-id="2653085"
-           data-language="EN"
-           data-unit-system="METRIC"
-           data-skin="light"
-           data-widget-type="upcoming"
-           style="padding-bottom:22px;position:relative;"
-        >
-          <a
-            href="https://www.tomorrow.io/weather/"
-            rel="nofollow noopener noreferrer"
-            target="_blank"
-            style="position: absolute; bottom: 0; transform: translateX(-50%); left: 50%;"
-          >
-            <img
-              alt="Powered by Tomorrow.io"
-              src="https://weather-website-client.tomorrow.io/img/powered-by-tomorrow.svg"
-              width="140"
-              height="15"
-            />
-          </a>
-        </div>
-    </ul>
-</div>
-
-<button type="button" class="collapsible">6/6 Yosemite NP</button>
-<div class="content">
-    <ul>
-        <li><a href="https://www.bigbravenomad.com/blog/Yosemite-with-kids-best-hikes-in-Yosemite-for-families">Yosemite with Kids - The Best Hikes in Yosemite for Families</a></li>
-        <li>Curry Village Bike Rental</li>
-        <li>Yosemite Village Visitor Center</li>
-        <li><a href="https://www.alltrails.com/explore/trail/us/california/mirror-lake-paved-trail">Mirror Lake Trail</a></li>
-        <ul>
-            <li>Length: 2.1 mi, Est. 43m</li>
-            <li>Elevation gain: 114 ft, out & back</li>
-        </ul>
-
-        <li><a href="https://goo.gl/maps/RLqovq3dGWMggGxz8">Map for the day</a></li>
-        <iframe src="https://www.google.com/maps/embed?pb=!1m34!1m12!1m3!1d811995.1636179868!2d-120.48437754199865!3d37.34591514795353!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!4m19!3e0!4m5!1s0x80940c930a33df27%3A0xf68686358c451f59!2s1219%20E%20Almond%20Ave%2C%20Madera%2C%20CA%2093637!3m2!1d36.9464008!2d-120.0461658!4m5!1s0x8096f239cea2d2b9%3A0xca2814cbd4c106bd!2sCurry%20Village%20Bike%20Rental%2C%20Curry%20Village%2C%20Yosemite%20Valley%2C%20CA!3m2!1d37.7377428!2d-119.5698245!4m5!1s0x80940c930a33df27%3A0xf68686358c451f59!2s1219%20East%20Almond%20Avenue%2C%20Madera%2C%20CA!3m2!1d36.9464008!2d-120.0461658!5e0!3m2!1sen!2sus!4v1654609762573!5m2!1sen!2sus" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-        <script>
-        (function(d, s, id) {
-            if (d.getElementById(id)) {
-                if (window.__TOMORROW__) {
-                    window.__TOMORROW__.renderWidget();
-                }
-                return;
-            }
-            const fjs = d.getElementsByTagName(s)[0];
-            const js = d.createElement(s);
-            js.id = id;
-            js.src = "https://www.tomorrow.io/v1/widget/sdk/sdk.bundle.min.js";
-
-            fjs.parentNode.insertBefore(js, fjs);
-        })(document, 'script', 'tomorrow-sdk');
-        </script>
-
-        <div class="tomorrow"
-           data-location-id="129712"
-           data-language="EN"
-           data-unit-system="METRIC"
-           data-skin="light"
-           data-widget-type="upcoming"
-           style="padding-bottom:22px;position:relative;"
-        >
-          <a
-            href="https://www.tomorrow.io/weather/"
-            rel="nofollow noopener noreferrer"
-            target="_blank"
-            style="position: absolute; bottom: 0; transform: translateX(-50%); left: 50%;"
-          >
-            <img
-              alt="Powered by Tomorrow.io"
-              src="https://weather-website-client.tomorrow.io/img/powered-by-tomorrow.svg"
-              width="140"
-              height="15"
-            />
-          </a>
-        </div>
-    </ul>
-</div>
-
-<button type="button" class="collapsible">6/7 Yosemite NP</button>
-<div class="content">
-    <ul>
-        <li><a href="https://www.lazylauren.com/yosemite-national-park-with-kids/">3 Day Itinerary – Yosemite National Park with Kids</a></li>
-        <li>Mariposa Grove (skipped this time)</li>
-        <li>Tunnel view</li>
-        <li>Swinging Bridge</li>
-        <li>Yosemite Valley Chapel (skipped this time)</li>
-        <li>Yosemite Village Visitor Center</li>
-        <li><a href="https://www.alltrails.com/explore/trail/us/california/lower-yosemite-falls-trail">Lower Yosemite Falls Trail</a></li>
-        <ul>
-            <li>Length: 1.2 mi, Est. 24m</li>
-            <li>Elevation gain: 59 ft, loop</li>
-        </ul>
-        <li><a href="https://www.alltrails.com/explore/trail/us/california/columbia-rock-trail">Columbia Rock Trail</a></li>
-        <ul>
-            <li>(skipped thie time)</li>
-            <li>Length: 1.9 mi, Est. 95m</li>
-            <li>Elevation gain: 974 ft, out & back</li>
-        </ul>
-        <li>Hanging Valley Viewpoint (skipped this time)</li>
-        <li>Olmsted Point</li>
-        <li>Tenaya Lake</li>
-        <li>Tuolumne Meadows</li>
-        <li>Tioga Pass (skipped this time)</li>
-        <li><a href="https://goo.gl/maps/4pqv55J64x2fEnm19">Map for the day (part 1)</a></li>
-        <iframe src="https://www.google.com/maps/embed?pb=!1m58!1m12!1m3!1d601601.7150809732!2d-120.37682286999767!3d37.345123836137844!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!4m43!3e0!4m5!1s0x80940c930a33df27%3A0xf68686358c451f59!2s1219%20E%20Almond%20Ave%2C%20Madera%2C%20CA%2093637!3m2!1d36.9464008!2d-120.0461658!4m5!1s0x8096907425b023b7%3A0x3d144c7d3512f0fb!2sSouth%20Entrance%2C%20Fish%20Camp%2C%20CA%2093623!3m2!1d37.5069586!2d-119.6320762!4m5!1s0x80969001e712c6fb%3A0x72945181c77a1115!2sMariposa%20Grove%2C%20California!3m2!1d37.5098372!2d-119.6046848!4m5!1s0x8096edbfeb1daedd%3A0x7395fff9b5b839dc!2sTunnel%20view!3m2!1d37.7157987!2d-119.6774827!4m5!1s0x8096f2089fce6279%3A0x1e0b8c9a6954b76e!2sSwinging%20Bridge%20Picnic%20Area%2C%20Yosemite%20National%20Park%2C%20Southside%20Drive%2C%20Yosemite%20Valley%2C%20CA!3m2!1d37.736401799999996!2d-119.5993836!4m5!1s0x8096ec33660d3985%3A0xa840d1fbe47c0123!2sYosemite%20Valley%20Chapel%2C%20Southside%20Drive%2C%20Yosemite%20Valley%2C%20CA!3m2!1d37.7410721!2d-119.59164729999999!4m5!1s0x8096f2195899edd3%3A0xd15919a354ea737!2sVisitor%20Parking!3m2!1d37.7440705!2d-119.5848869!5e1!3m2!1sen!2sus!4v1654611528713!5m2!1sen!2sus" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-        <li><a href="https://goo.gl/maps/jYCn7HwhMbojxw9p7">Map for the day (part 2)</a></li>
-        <iframe src="https://www.google.com/maps/embed?pb=!1m58!1m12!1m3!1d246656.96474848638!2d-119.15918565302455!3d37.8937934715358!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!4m43!3e0!4m5!1s0x8096f2195899edd3%3A0xd15919a354ea737!2sVisitor%20Parking%2C%20Yosemite%20Valley%2C%20CA%2095389!3m2!1d37.7440705!2d-119.5848869!4m5!1s0x8096ed45986bde7b%3A0x50d0633f22ea65cd!2sHanging%20Valley%20Viewpoint!3m2!1d37.721721699999996!2d-119.65058769999999!4m5!1s0x8096f6e6587d64d3%3A0xb938b2acf66cdd7!2sOlmsted%20Point!3m2!1d37.8107332!2d-119.4851803!4m5!1s0x8096f7a7f4265f6d%3A0xf93be30caa735e42!2sTenaya%20Lake!3m2!1d37.832862399999996!2d-119.46412129999999!4m5!1s0x809659c81b685a59%3A0xaf3fa8fab18840ab!2sTuolumne%20Meadows!3m2!1d37.873131799999996!2d-119.3591088!4m5!1s0x80964fe1074d2db1%3A0xefebba2c28c7c885!2sTioga%20Pass%20Road%20Valley%20View!3m2!1d37.9417967!2d-119.2291181!4m5!1s0x80bc0693097608ff%3A0xd5c54eb1d4f420a9!2s890%20N%20Main%20St%2C%20Tonopah%2C%20NV%2089049!3m2!1d38.0769641!2d-117.2463945!5e0!3m2!1sen!2sus!4v1654911343224!5m2!1sen!2sus" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-        <script>
-        (function(d, s, id) {
-            if (d.getElementById(id)) {
-                if (window.__TOMORROW__) {
-                    window.__TOMORROW__.renderWidget();
-                }
-                return;
-            }
-            const fjs = d.getElementsByTagName(s)[0];
-            const js = d.createElement(s);
-            js.id = id;
-            js.src = "https://www.tomorrow.io/v1/widget/sdk/sdk.bundle.min.js";
-
-            fjs.parentNode.insertBefore(js, fjs);
-        })(document, 'script', 'tomorrow-sdk');
-        </script>
-
-        <div class="tomorrow"
-           data-location-id="2658055"
-           data-language="EN"
-           data-unit-system="METRIC"
-           data-skin="light"
-           data-widget-type="upcoming"
-           style="padding-bottom:22px;position:relative;"
-        >
-          <a
-            href="https://www.tomorrow.io/weather/"
-            rel="nofollow noopener noreferrer"
-            target="_blank"
-            style="position: absolute; bottom: 0; transform: translateX(-50%); left: 50%;"
-          >
-            <img
-              alt="Powered by Tomorrow.io"
-              src="https://weather-website-client.tomorrow.io/img/powered-by-tomorrow.svg"
-              width="140"
-              height="15"
-            />
-          </a>
-        </div>
-    </ul>
-</div>
-
-<button type="button" class="collapsible">6/8 Great Basin NP</button>
-<div class="content">
-    <ul>
-        <li><a href="https://www.bigbravenomad.com/blog/what-to-do-in-great-basin-national-park-with-kids">What to do in Great Basin National Park with Kids</a></li>
-        <li>Welcome to Extraterrestrial Highway Sign</li>
-        <li>Lehman Caves Visitor Center</li>
-        <li>Lehman Caves Tours</li>
-        <li><a href="https://goo.gl/maps/XvUtE4SLYii9EPpR8">Map for the day</a></li>
-        <iframe src="https://www.google.com/maps/embed?pb=!1m52!1m12!1m3!1d1595255.6342621332!2d-116.80621639411778!3d38.65500399091186!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!4m37!3e0!4m5!1s0x80bc0693097608ff%3A0xd5c54eb1d4f420a9!2s890%20N%20Main%20St%2C%20Tonopah%2C%20NV%2089049!3m2!1d38.0769641!2d-117.2463945!4m5!1s0x80ba2b12b7223427%3A0xc61bc59dcd82a9f5!2sWelcome%20to%20Extraterrestrial%E2%80%A6!3m2!1d38.190874799999996!2d-116.36969049999999!4m5!1s0x80b1ad1d3f13e575%3A0x48e0561182b8dae5!2sKrispy%20Krunchy%20Chicken%2C%20Aultman%20Street%2C%20Ely%2C%20NV!3m2!1d39.2491349!2d-114.8864916!4m5!1s0x80b3e00967145f1d%3A0x541f366a96566fbb!2sGreat%20Basin%20Visitor%20Center%2C%20National%20Park%2C%20Baker%2C%20NV!3m2!1d39.0148501!2d-114.12643399999999!4m5!1s0x80b160a3748e78af%3A0x2c3e26f5f175f10f!2sLehman%20Caves%20Visitor%20Center!3m2!1d39.005582499999996!2d-114.21978539999999!4m5!1s0x80b1ac9da6235273%3A0x171397e478ca40a3!2s1591%20Great%20Basin%20Blvd%2C%20Ely%2C%20NV%2089301!3m2!1d39.2459072!2d-114.8718159!5e0!3m2!1sen!2sus!4v1654709212268!5m2!1sen!2sus" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-        <script>
-        (function(d, s, id) {
-            if (d.getElementById(id)) {
-                if (window.__TOMORROW__) {
-                    window.__TOMORROW__.renderWidget();
-                }
-                return;
-            }
-            const fjs = d.getElementsByTagName(s)[0];
-            const js = d.createElement(s);
-            js.id = id;
-            js.src = "https://www.tomorrow.io/v1/widget/sdk/sdk.bundle.min.js";
-
-            fjs.parentNode.insertBefore(js, fjs);
-        })(document, 'script', 'tomorrow-sdk');
-        </script>
-
-        <div class="tomorrow"
-           data-location-id="2663064"
-           data-language="EN"
-           data-unit-system="METRIC"
-           data-skin="light"
-           data-widget-type="upcoming"
-           style="padding-bottom:22px;position:relative;"
-        >
-          <a
-            href="https://www.tomorrow.io/weather/"
-            rel="nofollow noopener noreferrer"
-            target="_blank"
-            style="position: absolute; bottom: 0; transform: translateX(-50%); left: 50%;"
-          >
-            <img
-              alt="Powered by Tomorrow.io"
-              src="https://weather-website-client.tomorrow.io/img/powered-by-tomorrow.svg"
-              width="140"
-              height="15"
-            />
-          </a>
-        </div>
-    </ul>
-
-</div>
-
-<button type="button" class="collapsible">6/9 Great Basin NP</button>
-<div class="content">
-    <ul>
-        <li>Nevada - Utah Border</li>
-        <li>Great Basin Visitor Center</li>
-        <li><a href="https://www.alltrails.com/explore/trail/us/nevada/bristlecone-pine-glacier-trail--2">Bristlecone Pine Glacier Trail</a></li>
-        <ul>
-            <li>Length: 4.5 mi, Est. 144m</li>
-            <li>Elevation gain: 1059 ft, out & back</li>
-            <li>didn't do the glacier trail part</li>
-        </ul>
-        <li>Astronomy Amphitheater for Astronomy Program</li>
-        <li><a href="https://goo.gl/maps/eJaxqvKJz7taxsSE7">Map for the day</a></li>
-        <iframe src="https://www.google.com/maps/embed?pb=!1m52!1m12!1m3!1d396180.262001893!2d-114.46066765000002!3d39.12562915!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!4m37!3e0!4m5!1s0x80b1ac9da6235273%3A0x171397e478ca40a3!2s1591%20Great%20Basin%20Blvd%2C%20Ely%2C%20NV%2089301!3m2!1d39.2459072!2d-114.8718159!4m5!1s0x80b163d4f75b8f3b%3A0x63eb0f0c470ac98f!2sBorder%20Inn%2C%20E%20US%20Hwy%2050%2C%20Baker%2C%20NV!3m2!1d39.056506999999996!2d-114.0491242!4m5!1s0x80b3e00967145f1d%3A0x541f366a96566fbb!2sGreat%20Basin%20Visitor%20Center%2C%20National%20Park%2C%20Baker%2C%20NV!3m2!1d39.0148501!2d-114.12643399999999!4m5!1s0x80b167b708a3faf7%3A0x1e24585224d18971!2sBristlecone%2FAlpine%20Lakes%20Trailhead%2C%20Baker%2C%20NV%2089311!3m2!1d39.010012599999996!2d-114.30711199999999!4m5!1s0x80b160a3748e78af%3A0x2c3e26f5f175f10f!2sLehman%20Caves%20Visitor%20Center%2C%20Nevada%20488%2C%20Baker%2C%20NV!3m2!1d39.005582499999996!2d-114.21978539999999!4m5!1s0x80b1ac9da6235273%3A0x171397e478ca40a3!2s1591%20Great%20Basin%20Blvd%2C%20Ely%2C%20NV%2089301!3m2!1d39.2459072!2d-114.8718159!5e0!3m2!1sen!2sus!4v1654911731320!5m2!1sen!2sus" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-        <script>
-        (function(d, s, id) {
-            if (d.getElementById(id)) {
-                if (window.__TOMORROW__) {
-                    window.__TOMORROW__.renderWidget();
-                }
-                return;
-            }
-            const fjs = d.getElementsByTagName(s)[0];
-            const js = d.createElement(s);
-            js.id = id;
-            js.src = "https://www.tomorrow.io/v1/widget/sdk/sdk.bundle.min.js";
-
-            fjs.parentNode.insertBefore(js, fjs);
-        })(document, 'script', 'tomorrow-sdk');
-        </script>
-
-        <div class="tomorrow"
-           data-location-id="2663064"
-           data-language="EN"
-           data-unit-system="METRIC"
-           data-skin="light"
-           data-widget-type="upcoming"
-           style="padding-bottom:22px;position:relative;"
-        >
-          <a
-            href="https://www.tomorrow.io/weather/"
-            rel="nofollow noopener noreferrer"
-            target="_blank"
-            style="position: absolute; bottom: 0; transform: translateX(-50%); left: 50%;"
-          >
-            <img
-              alt="Powered by Tomorrow.io"
-              src="https://weather-website-client.tomorrow.io/img/powered-by-tomorrow.svg"
-              width="140"
-              height="15"
-            />
-          </a>
-        </div>
-    </ul>
-</div>
-
-<button type="button" class="collapsible">6/10 Tule Springs Fossil Beds NM</button>
-<div class="content">
-    <ul>
-        <li>Alien Research Center</li>
-        <li>Lake Mead Visitor Center (for Tule Springs Badge)</li>
-        <li>Tule Springs Fossil Beds NM (Skipped, too hot for outdoor activities)</li>
-        <li><a href="https://goo.gl/maps/ivsptU8G5Z9Mye3w6">Map for the day</a></li>
-        <iframe src="https://www.google.com/maps/embed?pb=!1m46!1m12!1m3!1d3237609.4213311397!2d-117.28638015747997!3d37.585023340924515!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!4m31!3e0!4m5!1s0x80b1ac9da6235273%3A0x171397e478ca40a3!2s1591%20Great%20Basin%20Blvd%2C%20Ely%2C%20NV%2089301!3m2!1d39.2459072!2d-114.8718159!4m5!1s0x80b7bfaecdf7b10b%3A0xb76f4dd11a898d0f!2sAlien%20Research%20Center%2C%20100%20NV-375%2C%20Hiko%2C%20NV%2089017!3m2!1d37.5329657!2d-115.2425919!4m5!1s0x80c92c9085fe56db%3A0x44bb40f6acfd63be!2sLake%20Mead%20Visitor%20Center%2C%2010%20Lakeshore%20Rd%2C%20Boulder%20City%2C%20NV%2089005!3m2!1d36.0100195!2d-114.7967649!4m5!1s0x80c8ed33fa42926d%3A0xc3b45fb78c45913e!2sTule%20Springs%20Fossil%20Beds%20National%20Monument%2C%20Las%20Vegas%2C%20NV!3m2!1d36.3359873!2d-115.2790438!4m5!1s0x80c8cf43fdadb4c1%3A0x104c20ce5bc3e95e!2s7830%20S%20Las%20Vegas%20Blvd%2C%20Las%20Vegas%2C%20NV%2089123!3m2!1d36.0474982!2d-115.170435!5e0!3m2!1sen!2sus!4v1654919785607!5m2!1sen!2sus" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-        <script>
-        (function(d, s, id) {
-            if (d.getElementById(id)) {
-                if (window.__TOMORROW__) {
-                    window.__TOMORROW__.renderWidget();
-                }
-                return;
-            }
-            const fjs = d.getElementsByTagName(s)[0];
-            const js = d.createElement(s);
-            js.id = id;
-            js.src = "https://www.tomorrow.io/v1/widget/sdk/sdk.bundle.min.js";
-
-            fjs.parentNode.insertBefore(js, fjs);
-        })(document, 'script', 'tomorrow-sdk');
-        </script>
-
-        <div class="tomorrow"
-           data-location-id="120163"
-           data-language="EN"
-           data-unit-system="METRIC"
-           data-skin="light"
-           data-widget-type="upcoming"
-           style="padding-bottom:22px;position:relative;"
-        >
-          <a
-            href="https://www.tomorrow.io/weather/"
-            rel="nofollow noopener noreferrer"
-            target="_blank"
-            style="position: absolute; bottom: 0; transform: translateX(-50%); left: 50%;"
-          >
-            <img
-              alt="Powered by Tomorrow.io"
-              src="https://weather-website-client.tomorrow.io/img/powered-by-tomorrow.svg"
-              width="140"
-              height="15"
-            />
-          </a>
-        </div>
-    </ul>
-</div>
-
-<button type="button" class="collapsible">6/11 Heading Home</button>
-<div class="content">
-    <ul>
-        <li>Get ready for Sunday worship tomorrow</li>
-        <li><a href="https://goo.gl/maps/eJjyjaYZrz4Me7ncA">Map for the day</a></li>
-        <iframe src="https://www.google.com/maps/embed?pb=!1m28!1m12!1m3!1d1672054.317464691!2d-117.96175186310343!3d35.06346169930772!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!4m13!3e0!4m5!1s0x80c8cf46a6d44c37%3A0xd803b83ee425f4ef!2s7830%20Las%20Vegas%20Blvd%20S%2C%20Las%20Vegas%2C%20NV%2089123!3m2!1d36.0472994!2d-115.17224189999999!4m5!1s0x80c2c4661b2ee819%3A0x79034851ce301580!2s265%20Monterey%20Rd%2C%20South%20Pasadena%2C%20CA%2091030%2C%20USA!3m2!1d34.1111557!2d-118.1702766!5e0!3m2!1sen!2sus!4v1654972914801!5m2!1sen!2sus" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-        <script>
-        (function(d, s, id) {
-            if (d.getElementById(id)) {
-                if (window.__TOMORROW__) {
-                    window.__TOMORROW__.renderWidget();
-                }
-                return;
-            }
-            const fjs = d.getElementsByTagName(s)[0];
-            const js = d.createElement(s);
-            js.id = id;
-            js.src = "https://www.tomorrow.io/v1/widget/sdk/sdk.bundle.min.js";
-
-            fjs.parentNode.insertBefore(js, fjs);
-        })(document, 'script', 'tomorrow-sdk');
-        </script>
-
-        <div class="tomorrow"
-           data-location-id="126706"
-           data-language="EN"
-           data-unit-system="METRIC"
-           data-skin="light"
-           data-widget-type="upcoming"
-           style="padding-bottom:22px;position:relative;"
-        >
-          <a
-            href="https://www.tomorrow.io/weather/"
-            rel="nofollow noopener noreferrer"
-            target="_blank"
-            style="position: absolute; bottom: 0; transform: translateX(-50%); left: 50%;"
-          >
-            <img
-              alt="Powered by Tomorrow.io"
-              src="https://weather-website-client.tomorrow.io/img/powered-by-tomorrow.svg"
-              width="140"
-              height="15"
-            />
-          </a>
-        </div>
-    </ul>
-</div>
-
-<script>
-    var coll = document.getElementsByClassName("collapsible");
-    var i;
-
-    for (i = 0; i < coll.length; i++) {
-      coll[i].addEventListener("click", function() {
-        this.classList.toggle("active");
-        var content = this.nextElementSibling;
-        if (content.style.display === "block") {
-          content.style.display = "none";
-        } else {
-          content.style.display = "block";
+        if (pl === "") {
+            submitPass.disabled = true;
+            passEl.disabled = true;
+            alert("This page is meant to be used with the encryption tool. It doesn't work standalone.");
+            return;
         }
-      });
-    }
-</script>
-</body>
+
+        if (!isSecureContext) {
+            document.querySelector("#passArea").style.display = "none";
+            document.querySelector("#securecontext").style.display = "block";
+            return;
+        }
+
+        if (!crypto.subtle) {
+            document.querySelector("#passArea").style.display = "none";
+            document.querySelector("#nocrypto").style.display = "block";
+            return;
+        }
+        
+        function str2ab(str) {
+            var ustr = atob(str);
+            var buf = new ArrayBuffer(ustr.length);
+            var bufView = new Uint8Array(buf);
+            for (var i=0, strLen=ustr.length; i < strLen; i++) {
+                bufView[i] = ustr.charCodeAt(i);
+            }
+            return bufView;
+        }
+
+        async function deriveKey(salt, password) {
+            const encoder = new TextEncoder()
+            const baseKey = await crypto.subtle.importKey(
+                'raw',
+                encoder.encode(password),
+                'PBKDF2',
+                false,
+                ['deriveKey'],
+            )
+            return await crypto.subtle.deriveKey(
+                { name: 'PBKDF2', salt, iterations: 100000, hash: 'SHA-256' },
+                baseKey,
+                { name: 'AES-GCM', length: 256 },
+                true,
+                ['decrypt'],
+            )
+        }
+        
+        async function doSubmit(evt) {
+            submitPass.disabled = true;
+            passEl.disabled = true;
+
+            let iv, ciphertext, key;
+            
+            try {
+                var unencodedPl = str2ab(pl);
+
+                const salt = unencodedPl.slice(0, 32)
+                iv = unencodedPl.slice(32, 32 + 16)
+                ciphertext = unencodedPl.slice(32 + 16)
+
+                key = await deriveKey(salt, passEl.value);
+            } catch (e) {
+                trycatcherror.style.display = "inline";
+                console.error(e);
+                return;
+            }
+
+            try {
+                const decryptedArray = new Uint8Array(
+                    await crypto.subtle.decrypt({ name: 'AES-GCM', iv }, key, ciphertext)
+                );
+
+                let decrypted = new TextDecoder().decode(decryptedArray);
+
+                if (decrypted === "") throw "No data returned";
+
+                const basestr = '<base href="." target="_top">';
+                const anchorfixstr = `
+                    <script>
+                        Array.from(document.links).forEach((anchor) => {
+                            const href = anchor.getAttribute("href");
+                            if (href.startsWith("#")) {
+                                anchor.addEventListener("click", function(e) {
+                                    e.preventDefault();
+                                    const targetId = this.getAttribute("href").substring(1);
+                                    const targetEl = document.getElementById(targetId);
+                                    targetEl.scrollIntoView();
+                                });
+                            }
+                        });
+                    <\/script>
+                `;
+                
+                // Set default iframe link targets to _top so all links break out of the iframe
+                if (decrypted.includes("<head>")) decrypted = decrypted.replace("<head>", "<head>" + basestr);
+                else if (decrypted.includes("<!DOCTYPE html>")) decrypted = decrypted.replace("<!DOCTYPE html>", "<!DOCTYPE html>" + basestr);
+                else decrypted = basestr + decrypted;
+
+                // Fix fragment links
+                if (decrypted.includes("</body>")) decrypted = decrypted.replace("</body>", anchorfixstr + '</body>');
+                else if (decrypted.includes("</html>")) decrypted = decrypted.replace("</html>", anchorfixstr + '</html>');
+                else decrypted = decrypted + anchorfixstr;
+                
+                contentFrame.srcdoc = decrypted;
+                
+                successEl.style.display = "inline";
+                setTimeout(function() {
+                    dialogWrap.style.display = "none";
+                }, 1000);
+            } catch (e) {
+                invalidPassEl.style.display = "inline";
+                passEl.value = "";
+                submitPass.disabled = false;
+                passEl.disabled = false;
+                console.error(e);
+                return;
+            }
+        }
+        
+        submitPass.onclick = doSubmit;
+        passEl.onkeypress = function(e){
+            if (!e) e = window.event;
+            var keyCode = e.keyCode || e.which;
+            invalidPassEl.style.display = "none";
+            if (keyCode == '13'){
+              // Enter pressed
+              doSubmit();
+              return false;
+            }
+        }
+    })();
+    </script>
+  </body>
 </html>
